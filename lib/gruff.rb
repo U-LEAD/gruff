@@ -13,6 +13,8 @@ require 'gruff/version'
   line
   net
   pie
+  doughnut
+  speedometer
   scatter
   spider
   stacked_area

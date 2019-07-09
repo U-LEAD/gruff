@@ -75,6 +75,8 @@ class Gruff::Pie < Gruff::Base
       end
     end
 
+    yield if block_given?
+
     trigger_final_draw
   end
 
