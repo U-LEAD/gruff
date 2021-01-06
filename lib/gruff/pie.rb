@@ -67,6 +67,8 @@ class Gruff::Pie < Gruff::Base
         update_chart_degrees_with slice.degrees
       end
     end
+
+    yield if block_given?
   end
 
 private

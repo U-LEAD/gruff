@@ -25,6 +25,8 @@ require 'gruff/version'
   line
   net
   pie
+  doughnut
+  speedometer
   scatter
   spider
   side_bar
