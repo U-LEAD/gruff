@@ -12,26 +12,33 @@ require File.dirname(__FILE__) + '/base'
 # To control where the doughnut chart starts creating slices, use #zero_degree.
 
 class Gruff::Doughnut < Gruff::Pie
-  private
 
   def draw
-    super do
-      make_dougnut_hole
+    hide_line_markers
 
-      yield if block_given?
+    unless data_given?
+      draw_no_data
+      return
     end
+
+    setup_data
+    setup_drawing
+
+    draw_legend
+    draw_line_markers
+    draw_axis_labels
+    draw_title
+
+    slices.each do |slice|
+      next if slice.value == 0
+
+      Gruff::Renderer::Ellipse.new(color: slice.color, width: radius/2.0)
+                              .render(center_x, center_y, radius / 1.25, radius / 1.25, chart_degrees, chart_degrees + slice.degrees + 0.5)
+      process_label_for slice
+      update_chart_degrees_with slice.degrees
+    end
+
+    yield if block_given?
   end
 
-  def make_dougnut_hole
-    @radius = @radius / 2.0
-    @chart_degrees = zero_degree
-
-    slice = slice_class.new([nil, [1], '#FFFFFF '], {})
-    slice.total = 1
-
-    set_stroke_color(slice)
-    set_fill_color
-    set_stroke_width
-    set_drawing_points_for(slice)
-  end
 end
